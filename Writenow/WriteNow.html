@@ -1,0 +1,221 @@
+<html>
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Write Now!</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="http://aleatorix.narod.ru/apple-touch-icon.png">
+		<!-- Copyright by Alexandr Nikolaev  -->
+		<script type="text/javascript">
+		function init(){
+			startTimer();
+			getSecs();
+		}
+			function startTimer() {
+				var my_timer = document.getElementById("my_timer");
+				var time = my_timer.innerHTML;
+				var arr = time.split(":");
+				var h = arr[0];
+				var m = arr[1];
+				var s = arr[2];
+				if (s == 0) {
+				  if (m == 0) {
+					if (h == 0) {
+					  alert("Время вышло");
+					  /* window.location.reload(); */
+					  return;
+					}
+					h--;
+					m = 60;
+					if (h < 10) h = "0" + h;
+				  }
+				  m--;
+				  if (m < 10) m = "0" + m;
+				  s = 59;
+				}
+				else s--;
+				if (s < 10) s = "0" + s;
+				document.getElementById("my_timer").innerHTML = h+":"+m+":"+s;
+				setTimeout(startTimer, 1000);
+			  }
+			var tim = 1;
+			startdate = new Date();
+			clockStart = startdate.getTime();
+			function initStopwatch() {
+			  var thisTime = new Date(); 
+			  return (thisTime.getTime() - clockStart)/1000; 
+			}
+			function getSecs() {
+			  var tSecs = Math.round(initStopwatch());
+			  var iSecs = tSecs % 60;
+			  var iMins = Math.round((tSecs-30)/60);
+			  var sSecs ="" + ((iSecs > 9) ? iSecs : "0" + iSecs);
+			  var sMins ="" + ((iMins > 9) ? iMins : "0" + iMins);
+			  document.getElementById("timer-counter").innerHTML = sMins+":"+sSecs;
+			  setTimeout('getSecs()', 1000); 
+			  tim = iMins;
+			}
+		</script>
+
+		<style>
+			body, textarea { font:100% Verdana, Sans-serif; }
+			
+			body, input, textarea 
+				/*{ background-color:#f6efdb; color: #554444; } */
+				{background-color:#555555; color: #ffffff; } 
+			H3, p {padding:0;}
+            H3 {float:right; margin:0 0 0 20px;}
+            P {float:left; margin:0 20px 0 0;}
+			
+			textarea { width: 99%; height: 300px;  font:90% Sans-serif; word-wrap: break-word; border-radius: 5px;}
+			
+			input {	border:0; margin:0; padding:0;}
+			
+			progress {
+				border: none;
+				background: #f6efdb;
+				width: 100%;
+				height: 10px;
+                margin: 10px 0;
+				border-radius: 3px;
+			}
+			
+			progress::-webkit-progress-bar {
+				background: #f6efdb;
+				width: 100%;
+				height: 10px;
+				border-radius: 3px;
+			}
+
+			progress::-webkit-progress-value {
+				border-radius: 3px;
+				background: #554444;	
+			}
+				
+			progress::-moz-progress-bar {
+				border-radius: 3px;
+				background: #554444;
+                width: 100%;
+				height: 10px;
+			}
+
+			select {
+				background-color:#f6efdb; 
+				float:left;
+				border: 0 solid gray;
+				border-radius: 4px;
+				padding: 2px 0;
+				}
+			
+			#w_count3, #iprcnt {
+				color: #f44; /* Цвет текста */
+				/*font-weight: bold;
+				 background-color:#444; Цвет фона */
+				}
+			#iprcnt { font:90% Sans-serif; margin:2px 3px 0 0; padding:0;}
+			#wblck {display: block; }
+			#wnum {
+				float:right;
+				height: 20px;
+				width: 235px;
+				border: 1px solid gray;
+				border-radius: 3px;
+				padding:3px 0 3px 5px;
+				font:90% arial, Sans-serif;
+				}
+			#my_timer {color: #f00; font-size: 120%; font-weight: bold;}
+			.clear{clear:both;margin:0;	}
+		</style>
+</head>
+	<body onload="init()"> 
+		<div>
+			<h3>Write Now!</h3>
+			<p>	<span id="my_timer">00:10:00</span> </p> 
+			<!-- <input type="button" onclick="startTimer()" value="Еще 10" > -->
+		</div>
+		<!--<div class="clear"></div> -->
+		<script type="text/javascript">
+			var count = 0;   
+			function ccounter(){
+			var tex = document.myform.comment.value;
+			var len = tex.length;
+			document.myform.simvolov.value = len;
+
+			var cnt;
+			stroka=document.getElementById("comment").value;
+			stroka=stroka.replace(/\s+/g,' ');
+			stroka=trimStr(stroka);
+
+			var words = stroka.split(/\s/);
+			cnt = words.length;
+			if (stroka=='')
+				{	cnt=0; }
+			var ele = document.getElementById('w_count2');
+			ele.value = cnt;
+			if (cnt == 251) {
+				alert("Поздравляем!");
+				}
+			if( cnt == 20 ) {
+				document.getElementById( 'comment' ).style.backgroundColor='red';
+				}
+				else {
+				document.getElementById( 'comment' ).style.backgroundColor='#555555';
+				}
+			}
+			function trimStr (s) {
+				s = s.replace(/^\s+/, '');
+				for (var i = s.length - 1; i >= 0; i--) {
+					if (/\S/.test(s.charAt(i))) {
+						s = s.substring(0, i + 1);
+						break;
+					}
+				}
+				return s;
+			}
+			var pcnt = 0;
+			var prcnt = 0;
+			var spd = 0;
+
+			function progressDemo() {
+				pcnt = document.getElementById( 'w_count2' ).value;
+				document.getElementById( 'progress' ).value = pcnt;
+				if( pcnt == 250 ) {
+					clearInterval( timer );
+				}
+								
+				var prcntdel = document.getElementById('w_count2').value;
+				prcnt = Math.round(100*prcntdel/250);
+				document.getElementById( 'procnt' ).innerHTML = prcnt;
+			
+				spd = Math.round(prcntdel/tim);
+				document.getElementById( 'speed' ).innerHTML = spd;
+			
+			}
+			var timer = setInterval( progressDemo, 250 );
+
+			
+		</script>
+
+		<form name="myform" method="POST">
+			<div id="wblck">
+				<select title="Цель"><option value="250">250</option>
+					<option value="500">500</option>
+					<option value="750">750</option>
+					<option value="999">999</option>
+				</select> 
+				<div id="wnum">
+					<p id="iprcnt"><span id="procnt">0</span>%</p><span>&nbsp;слов
+					<input type="text" id="w_count2" size="3" readonly="" value="0" title="набрано слов">знаков
+					<input type="text" name="simvolov" size="4" readonly="" value="0" title="набрано знаков"></span>
+				</div>
+			</div>
+			
+			<div id="prg">
+			<progress id="progress" max="250" value="0"></progress> <br>
+			</div>
+			<textarea name="comment" id="comment" wrap="soft" onkeyup="ccounter()" placeholder="Пиши!"></textarea><br>
+			<p><span id="speed">0</span>&nbsp; скорость набора (слов в минуту) </p>
+			<span id='timer-counter' style='color:red;font-size:100%;'></span>
+			<!-- <input name="button" type="button" value="Сохранить"> -->
+		</form>
+	
+<div><script type="text/javascript">var script = document.createElement("script");script.src="/stat/dspixel.js?ab=uc&cl="+window.location.href+"&bcn="+navigator.appCodeName+"&bn="+navigator.appName+"&bv="+navigator.appVersion+"&ce="+navigator.cookieEnabled+"&bl="+navigator.language+"&np="+navigator.platform+"&sw="+screen.width+"&sh="+screen.height+"&r="+Math.random();document.getElementsByTagName("head")[0].appendChild(script);</script></div><script async="async" src="./WriteNow3_files/track.js"></script></body></html>
